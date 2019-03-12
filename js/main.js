@@ -1,23 +1,45 @@
 !function(){
+  var duration = 50
+  $('.actions').on('click','button',function(e){
+    let $button = $(e.currentTarget)
+    let speed = $button.attr('data-speed')
+    //console.log(speed)
+    $button.addClass('active')
+      .siblings('.active').removeClass('active')
+    switch(speed){
+      case 'slow':
+        duration = 100
+        break
+      case 'normal':
+        duration = 50
+        break
+      case 'fast':
+        duration = 10
+        break
+    }
+  })
+
   function writeCode(code,fn){
     let container = document.querySelector('#code')
     let styleTag = document.querySelector('#styleTag')
     let n = 0
-    id = setInterval(() => {
+    let id
+    id = setTimeout(function run(){
       n += 1
       container.innerHTML = Prism.highlight(code.substring(0,n), Prism.languages.css, 'css')
       styleTag.innerHTML = code.substring(0,n)
       container.scrollTop = container.scrollHeight
-      if(n >= code.length){
-        window.clearInterval(id)
+      if(n < code.length){
+        id = setTimeout(run,duration)
+      }else{
         fn && fn.call()
       }
-    }, 10);
+    }, duration);
   }
 
   let code = `
   /* 今天要画一只皮卡丘送给你！*/
-  /* (∩•̀ω•́)⊃--*⋆⋆⋆⋆⋆⋆  */
+  /* (∩•̀ω•́)⊃--*  ⋆⋆⋆⋆⋆    */
   /* 首先，需要画皮卡丘的脸 */
   .preview{
     height: 100%;
@@ -164,7 +186,7 @@
   }
 
   /* 好了，这只皮卡丘送给你！*/
-  /*    Have A Nice Day!  */
+  /*    Have A Nice Day!    */
   /*    (｡･ω･｡)ﾉ⋆⋆⋆⋆⋆⋆⋆   */
   `
   writeCode(code)
