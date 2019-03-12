@@ -43,7 +43,6 @@
   /* 首先，需要画皮卡丘的脸 */
   .preview{
     height: 100%;
-    border: 1px solid green;
     display: flex;
     justify-content: center;
     align-items: center;
